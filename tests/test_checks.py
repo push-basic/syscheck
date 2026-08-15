@@ -20,8 +20,9 @@ class TestCheckSystemHealth(unittest.TestCase):
 
 
 class TestCheckInternet(unittest.TestCase):
+
     def test_check_internet_returns_true(self):
-        with patch("internet.socket.create_connection") as mock_create_connection:
+        with patch("src.checks.socket.create_connection") as mock_create_connection:
             mock_create_connection.return_value.__enter__.return_value = None
 
             self.assertTrue(check_internet())
@@ -29,8 +30,9 @@ class TestCheckInternet(unittest.TestCase):
 
 
 class TestCheckDns(unittest.TestCase):
-    def test_check_dns_returns_true_when_lookup_succeeds(self):
-        with patch("internet.socket.gethostbyname") as mock_gethostbyname:
+
+    def test_check_dns_returns_true_when_succeeds(self):
+        with patch("src.checks.socket.gethostbyname") as mock_gethostbyname:
             mock_gethostbyname.return_value = "142.250.74.14"
 
             result = check_dns()
@@ -38,8 +40,8 @@ class TestCheckDns(unittest.TestCase):
             self.assertTrue(result)
             mock_gethostbyname.assert_called_once_with("https://google.com")
 
-    def test_check_dns_returns_false_when_lookup_fails(self):
-        with patch("internet.socket.gethostbyname") as mock_gethostbyname:
+    def test_check_dns_returns_false_when_fails(self):
+        with patch("src.checks.socket.gethostbyname") as mock_gethostbyname:
             mock_gethostbyname.side_effect = socket.gaierror
 
             result = check_dns()
