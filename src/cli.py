@@ -3,8 +3,6 @@ from pathlib import Path
 
 from .output import system_output
 
-
-
 def main():
     parser = argparse.ArgumentParser(description="System health check utility")
     parser.add_argument("--json", help="json formatted")

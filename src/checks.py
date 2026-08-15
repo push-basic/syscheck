@@ -6,19 +6,19 @@ from pathlib import Path
 
 def check_system_health(system_path: Path) -> list[float]:
     if not system_path:
-        return f"Error: invalid system path"
+        raise ValueError("invalid system path")
     
     results = []
 
     dsk = shutil.disk_usage(system_path)
-    results.append(dsk.used / dsk.total)
+    results.append(dsk.used / dsk.total * 100)
 
     mem = psutil.virtual_memory()
-    results.append(mem.total - mem.available) / mem.total * 100
-    results.append(mem.total)
+    results.append((mem.total - mem.available) / (1024 ** 3))
+    results.append(mem.total / (1024 ** 3))
 
-    tup = psutil.getloadavg()
-    results.append(tup[0])
+    load = psutil.getloadavg()
+    results.append(float(load[0]))
 
     return results
 

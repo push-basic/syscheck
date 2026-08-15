@@ -13,12 +13,12 @@ from src.checks import (
 class TestCheckSystemHealth(unittest.TestCase):
 
     def test_empty_path(self):
-        result = check_system_health(Path())
-        self.assertEqual(result, "Error: invalid system path")
+        with self.assertRaises(ValueError):
+            check_system_health(Path())
 
     def test_none_path(self):
-        result = check_system_health(None)
-        self.assertEqual(result, "Error: invalid system path")
+        with self.assertRaises(ValueError):
+            check_system_health(None)
 
 
 class TestCheckInternet(unittest.TestCase):
