@@ -1,5 +1,5 @@
 from pathlib import Path
-from src.checks import (
+from syscheck.checks import (
     check_system_health, 
     check_internet, 
     check_dns
