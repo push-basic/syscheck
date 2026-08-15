@@ -14,8 +14,8 @@ def system_output(system_path: Path) -> str:
         f"✓ Disk /    {health[0]}% used\n",
         f"✓ Memory    {health[1]} / {health[2]} GB\n",
         f"✓ Load      {health[3]}\n",
-        f"✓ Internet  {'resolved' if check_internet() else 'unresolved'}\n",
-        f"✓ DNS       {'working' if check_dns() else 'down'}",
+        f"✓ Internet  {'reachable' if check_internet() else 'unreachable'}\n",
+        f"✓ DNS       {'resolved' if check_dns() else 'unresolved'}",
     )
 
 
