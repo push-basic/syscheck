@@ -24,7 +24,7 @@ Currently, it checks:
 Clone the repository:
 
 ```
-git clone https://github.com/aaa/syscheck.git
+git clone https://github.com/push-basic/syscheck.git
 cd syscheck/
 ```
 Create and activate a virtual environment:
