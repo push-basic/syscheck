@@ -6,10 +6,10 @@ from pathlib import Path
 
 def check_system_health(system_path: Path) -> list[float]:
     if not system_path:
-        return f"invalid system path"
+        return f"Error: invalid system path"
     
     results = []
-    
+
     dsk = shutil.disk_usage(system_path)
     results.append(dsk.used / dsk.total)
 
