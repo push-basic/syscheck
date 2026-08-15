@@ -31,7 +31,7 @@ def check_internet() -> bool:
 
 def check_dns() -> bool:
     try:
-        socket.gethostbyname("https://google.com")
+        socket.gethostbyname("google.com")
         return True
     except socket.gaierror:
         return False

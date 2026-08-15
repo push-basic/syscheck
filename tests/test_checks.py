@@ -31,23 +31,23 @@ class TestCheckInternet(unittest.TestCase):
 
 class TestCheckDns(unittest.TestCase):
 
-    def test_check_dns_returns_true_when_succeeds(self):
+    def test_check_dns_returns_true_when_resolved(self):
         with patch("src.checks.socket.gethostbyname") as mock_gethostbyname:
             mock_gethostbyname.return_value = "142.250.74.14"
 
             result = check_dns()
 
             self.assertTrue(result)
-            mock_gethostbyname.assert_called_once_with("https://google.com")
+            mock_gethostbyname.assert_called_once_with("google.com")
 
-    def test_check_dns_returns_false_when_fails(self):
+    def test_check_dns_returns_false_when_unresolved(self):
         with patch("src.checks.socket.gethostbyname") as mock_gethostbyname:
             mock_gethostbyname.side_effect = socket.gaierror
 
             result = check_dns()
 
             self.assertFalse(result)
-            mock_gethostbyname.assert_called_once_with("https://google.com")
+            mock_gethostbyname.assert_called_once_with("google.com")
 
 
 
