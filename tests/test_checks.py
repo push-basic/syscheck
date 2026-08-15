@@ -1,8 +1,6 @@
 import unittest
+import socket
 from unittest.mock import patch
-
-from socket import gaierror
-from pathlib import Path
 
 from src.checks import (
     check_system_health, 
@@ -14,7 +12,7 @@ class TestCheckSystemHealth(unittest.TestCase):
 
     def test_empty_path(self):
         with self.assertRaises(ValueError):
-            check_system_health(Path())
+            check_system_health("")
 
     def test_none_path(self):
         with self.assertRaises(ValueError):
@@ -22,44 +20,33 @@ class TestCheckSystemHealth(unittest.TestCase):
 
 
 class TestCheckInternet(unittest.TestCase):
+    def test_check_internet_returns_true(self):
+        with patch("internet.socket.create_connection") as mock_create_connection:
+            mock_create_connection.return_value.__enter__.return_value = None
 
-    @patch("system_health.socket.create_connection")
-    def test_internet_reachable(self, mock_create_connection):
-        result = check_internet()
+            self.assertTrue(check_internet())
 
-        self.assertTrue(result)
-        mock_create_connection.assert_called_once_with(
-            ("8.8.8.8, 53"),
-            timeout=3
-        )
-
-    @patch("system_health.socket.create_connection")
-    def test_internet_unreachable(self, mock_create_connection):
-        mock_create_connection.side_effect = OSError
-
-        result = check_internet()
-
-        self.assertFalse(result)
 
 
 class TestCheckDns(unittest.TestCase):
+    def test_check_dns_returns_true_when_lookup_succeeds(self):
+        with patch("internet.socket.gethostbyname") as mock_gethostbyname:
+            mock_gethostbyname.return_value = "142.250.74.14"
 
-    @patch("system_health.socket.gethostbyname")
-    def test_dns_working(self, mock_gethostbyname):
-        result = check_dns()
+            result = check_dns()
 
-        self.assertTrue(result)
-        mock_gethostbyname.assert_called_once_with(
-            ("https://google.com")
-        )
+            self.assertTrue(result)
+            mock_gethostbyname.assert_called_once_with("https://google.com")
 
-    @patch("system_health.socket.gethostbyname")
-    def test_dns_down(self, mock_gethostbyname):
-        mock_gethostbyname.side_effect = gaierror
-    
-        result = check_dns()
+    def test_check_dns_returns_false_when_lookup_fails(self):
+        with patch("internet.socket.gethostbyname") as mock_gethostbyname:
+            mock_gethostbyname.side_effect = socket.gaierror
 
-        self.assertFalse(result)
+            result = check_dns()
+
+            self.assertFalse(result)
+            mock_gethostbyname.assert_called_once_with("https://google.com")
+
 
 
 

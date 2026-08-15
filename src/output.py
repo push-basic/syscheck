@@ -6,7 +6,7 @@ from checks import (
 )
 
 def system_output(system_path: Path) -> str:
-    if not system_path:
+    if system_path != Path("/"):
         raise ValueError("invalid system path")
     
     health = check_system_health(system_path)

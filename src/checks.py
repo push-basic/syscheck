@@ -5,7 +5,7 @@ import socket
 from pathlib import Path
 
 def check_system_health(system_path: Path) -> list[float]:
-    if not system_path:
+    if system_path != Path("/"):
         raise ValueError("invalid system path")
     
     results = []
