@@ -7,7 +7,7 @@ from .output import system_output
 
 def main():
     parser = argparse.ArgumentParser(description="System health check utility")
-    parser.add_argument("--json", help="json formatted ")
+    parser.add_argument("--json", help="json formatted")
     args = parser.parse_args()
 
     system_path = Path("/")

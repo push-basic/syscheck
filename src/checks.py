@@ -5,17 +5,22 @@ import socket
 from pathlib import Path
 
 def check_system_health(system_path: Path) -> list[float]:
+    if not system_path:
+        return f"invalid system path"
+    
+    results = []
+    
     dsk = shutil.disk_usage(system_path)
-    disk_used = dsk.used / dsk.total
+    results.append(dsk.used / dsk.total)
 
     mem = psutil.virtual_memory()
-    total_memory = mem.total
-    percent_memory = (total_memory - mem.available) / total_memory * 100
+    results.append(mem.total - mem.available) / mem.total * 100
+    results.append(mem.total)
 
     tup = psutil.getloadavg()
-    load = tup[0]
+    results.append(tup[0])
 
-    return [disk_used, percent_memory, total_memory, load]
+    return results
 
 def check_internet() -> bool:
     try:
