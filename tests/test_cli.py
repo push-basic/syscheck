@@ -4,12 +4,12 @@ from pathlib import Path
 from io import StringIO
 from unittest.mock import patch
 
-from src.cli import main
+from syscheck.cli import main
 
 class TestMain(unittest.TestCase):
 
     def test_main(self):
-        with patch("src.cli.system_output") as mock_system_output:
+        with patch("syscheck.cli.system_output") as mock_system_output:
             mock_system_output.return_value = "healthy"
 
             with patch.object(sys, "argv", ["cli"]):

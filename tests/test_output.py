@@ -1,6 +1,6 @@
 import unittest
 
-from src.output import system_output
+from syscheck.output import system_output
 
 class TestSystemOutput(unittest.TestCase):
 
